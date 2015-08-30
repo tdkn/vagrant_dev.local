@@ -55,7 +55,7 @@ EOF
 )
 echo "${VHOST}" > /etc/apache2/sites-available/000-default.conf
 
-# Enable apache rewrite module.
+# Enable apache modules.
 #--------------------------------------------------
 a2enmod rewrite
 a2enmod vhost_alias
