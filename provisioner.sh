@@ -59,6 +59,7 @@ echo "${VHOST}" > /etc/apache2/sites-available/000-default.conf
 #--------------------------------------------------
 a2enmod rewrite
 a2enmod vhost_alias
+a2disconf javascript-common
 
 # Restart apache.
 #--------------------------------------------------
