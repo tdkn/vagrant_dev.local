@@ -48,7 +48,7 @@ Vagrant.configure(2) do |config|
     type: "rsync",
     owner: "www-data",
     group: "www-data",
-    rsync__exclude: [".git/"]
+    rsync__exclude: [".git/", "_dev/"]
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
