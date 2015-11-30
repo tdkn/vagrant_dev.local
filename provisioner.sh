@@ -37,6 +37,7 @@ VHOST=$(cat <<EOF
     ServerName dev.local
     ServerAlias *.dev.local
     VirtualDocumentRoot "/var/www/html/%-3+"
+    php_admin_value auto_prepend_file /var/www/html/document_root.php
     <Directory "/var/www/html/">
         AllowOverride All
         Require all granted
@@ -46,6 +47,7 @@ VHOST=$(cat <<EOF
 <VirtualHost *:80>
     ServerAlias *.local
     VirtualDocumentRoot "/var/www/html/%-2+"
+    php_admin_value auto_prepend_file /var/www/html/document_root.php
     <Directory "/var/www/html/">
         AllowOverride All
         Require all granted
