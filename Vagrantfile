@@ -75,6 +75,13 @@ Vagrant.configure(2) do |config|
 
     # VirtualBox GUI name:
     vb.name = "vagrant_dev.local"
+
+    # Some Customizations:
+    vb.customize [
+      'modifyvm', :id,
+      '--chipset', 'ich9',
+      '--paravirtprovider', 'kvm'
+    ]
   end
 
   # View the documentation for the provider you are using for more
