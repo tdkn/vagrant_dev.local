@@ -34,7 +34,21 @@ Vagrant.configure(2) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "10.0.1.4"
-	config.vm.network :forwarded_port, host: 8080, guest: 80
+  config.vm.network :forwarded_port, host: 8080, guest: 80
+  config.vm.network :forwarded_port, host: 8443, guest: 443
+
+  if RUBY_PLATFORM.downcase.match(/darwin/)
+    config.trigger.after [:provision, :up, :reload] do
+      system('echo "
+      rdr pass inet proto tcp from any to any port 80 -> 127.0.0.1 port 8080
+      rdr pass inet proto tcp from any to any port 443 -> 127.0.0.1 port 8443
+      " | sudo pfctl -ef - > /dev/null 2>&1; echo "==> Fowarding Ports: 80 -> 8080, 443 -> 8443 & Enabling pf"')
+    end
+
+    config.trigger.after [:halt, :destroy] do
+      system("sudo pfctl -df /etc/pf.conf > /dev/null 2>&1; echo '==> Removing Port Forwarding & Disabling pf'")
+    end
+  end
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
