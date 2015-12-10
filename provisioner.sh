@@ -25,6 +25,7 @@ apt-get update
 apt-get install -y \
   apache2 \
   php5 php5-mysql \
+  sqlite3 php5-sqlite \
   mysql-server mysql-client \
   phpmyadmin \
   zsh tmux \
@@ -33,25 +34,43 @@ apt-get install -y \
 
 # setup hosts file
 VHOST=$(cat <<EOF
+<Directory "/var/www/html/">
+    AllowOverride All
+    Require all granted
+</Directory>
+
+#Listen 8001
+#Listen 8002
+#Listen 8003
+#
+#<VirtualHost *:80>
+#    DocumentRoot "/var/www/html/default.example.com"
+#    php_admin_value auto_prepend_file /var/www/html/document_root.php
+#</VirtualHost>
+#
+#<VirtualHost *:8001>
+#    DocumentRoot "/var/www/html/site1.example.com"
+#</VirtualHost>
+#
+#<VirtualHost *:8002>
+#    DocumentRoot "/var/www/html/site2.example.com"
+#</VirtualHost>
+#
+#<VirtualHost *:8003>
+#    DocumentRoot "/var/www/html/site3.example.com"
+#</VirtualHost>
+
 <VirtualHost *:80>
     ServerName dev.local
     ServerAlias *.dev.local
     VirtualDocumentRoot "/var/www/html/%-3+"
     php_admin_value auto_prepend_file /var/www/html/document_root.php
-    <Directory "/var/www/html/">
-        AllowOverride All
-        Require all granted
-    </Directory>
 </VirtualHost>
 
 <VirtualHost *:80>
     ServerAlias *.local
     VirtualDocumentRoot "/var/www/html/%-2+"
     php_admin_value auto_prepend_file /var/www/html/document_root.php
-    <Directory "/var/www/html/">
-        AllowOverride All
-        Require all granted
-    </Directory>
 </VirtualHost>
 EOF
 )

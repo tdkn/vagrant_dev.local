@@ -36,6 +36,9 @@ Vagrant.configure(2) do |config|
   config.vm.network "private_network", ip: "10.0.1.4"
   config.vm.network :forwarded_port, host: 8080, guest: 80
   config.vm.network :forwarded_port, host: 8443, guest: 443
+  #config.vm.network :forwarded_port, host: 8001, guest: 8001
+  #config.vm.network :forwarded_port, host: 8002, guest: 8002
+  #config.vm.network :forwarded_port, host: 8003, guest: 8003
 
   if RUBY_PLATFORM.downcase.match(/darwin/)
     config.trigger.after [:provision, :up, :reload] do
