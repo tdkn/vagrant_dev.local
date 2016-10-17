@@ -68,6 +68,12 @@ Vagrant.configure(2) do |config|
     group: "www-data",
     rsync__exclude: [".git/", "_dev/"]
 
+  # Configure the window for gatling to coalesce writes.
+  if Vagrant.has_plugin?("vagrant-gatling-rsync")
+    config.gatling.latency = 1.5
+    config.gatling.time_format = "%H:%M:%S"
+  end
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
